@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
-</script>
+import CompaniesIndex from '@/Components/Companies/CompaniesIndex.vue';</script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head><title>Dashboard</title></Head>
 
     <AuthenticatedLayout>
         <template #header>
@@ -15,6 +14,8 @@ import { Head } from '@inertiajs/vue3';
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">You're logged in!</div>
+
+                    <CompaniesIndex />
                 </div>
             </div>
         </div>

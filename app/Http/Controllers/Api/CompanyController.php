@@ -43,7 +43,7 @@ class CompanyController extends Controller
     {
         $company->update($request->validated());
 
-        return response($company);
+        return response(new CompanyResource($company));
     }
 
     /**
