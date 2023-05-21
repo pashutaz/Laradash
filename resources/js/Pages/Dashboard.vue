@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import CompaniesIndex from '@/Components/Companies/CompaniesIndex.vue';</script>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import CompaniesIndex from '@/Pages/Companies';
+</script>
 
 <template>
     <Head><title>Dashboard</title></Head>
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Dashboard</h2>
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                Dashboard
+            </h2>
         </template>
 
         <div class="py-12">

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {reactive, ref} from "vue";
+import {defineProps, onMounted, reactive, ref} from "vue";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import useCompanies from "@/Composables/companies";
 import InputLabel from "@/Components/InputLabel";
@@ -8,11 +8,14 @@ import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import {AxiosError} from "axios";
 
+const props = defineProps({
+    companyId: String
+});
+
 let processing = ref(false);
 let successful = ref(false);
 
 const errors = ref([]);
-
 const form = reactive({
     name: null,
     address: null,
@@ -20,13 +23,31 @@ const form = reactive({
     website: null
 })
 
-const { storeCompany } = useCompanies();
+const { fetchCompany, updateCompany } = useCompanies();
 
+const fetch = async () => {
+    processing.value = true;
+
+    try {
+        const company = await fetchCompany(Number(props.companyId));
+
+        Object.assign(form, {...company});
+
+        successful.value = true;
+    }
+    catch (e) {
+        successful.value = false;
+        errors.value = e.response?.data['errors'];
+    }
+    finally {
+        processing.value = false;
+    }
+};
 const submit = async () => {
     processing.value = true;
 
     try {
-        await storeCompany(form);
+        await updateCompany(Number(props.companyId), form);
         successful.value = true;
     }
     catch (e: AxiosError<Array<any>>) {
@@ -37,15 +58,17 @@ const submit = async () => {
         processing.value = false;
     }
 }
+
+onMounted(fetch);
 </script>
 
 <template>
-    <Head><title>New company</title></Head>
+    <Head><title>Edit company</title></Head>
 
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                New company
+                Edit company
             </h2>
         </template>
 
@@ -115,11 +138,11 @@ const submit = async () => {
                         </div>
 
                         <div class="flex items-center gap-4 pb-5">
-                            <PrimaryButton :disabled="processing">Create</PrimaryButton>
+                            <PrimaryButton :disabled="processing">Save</PrimaryButton>
 
                             <Transition enter-from-class="opacity-0" leave-to-class="opacity-0" class="transition ease-in-out">
                                 <p v-if="successful" class="text-sm text-green-600 dark:text-green-400">
-                                    Created
+                                    Saved
                                 </p>
                             </Transition>
                         </div>

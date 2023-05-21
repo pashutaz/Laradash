@@ -34,6 +34,12 @@ Route::prefix('/companies')->group(function () {
     Route::get('/create', function () {
         return Inertia::render('Companies/Create');
     })->name('company.create');
+
+    Route::get('/{id}/edit', function ($id) {
+        return Inertia::render('Companies/Edit', [
+            'companyId' => $id
+        ]);
+    })->name('company.edit');
 });
 
 Route::middleware('auth')->group(function () {

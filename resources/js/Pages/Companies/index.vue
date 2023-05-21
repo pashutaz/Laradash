@@ -1,42 +1,3 @@
-<template>
-    <div>
-        <BaseTable
-            :columns="[
-                { name: 'Name', value: 'name' },
-                { name: 'Email', value: 'email' },
-                { name: 'Address', value: 'address' },
-                { name: 'Website', value: 'website' }
-            ]"
-            :rows="companies"
-        >
-            <template #action="{ row }">
-                <td>
-                    <DangerBtn @click="confirmingCompanyDeletion=true">
-                        Delete
-                    </DangerBtn>
-                </td>
-
-                <Modal :show="confirmingCompanyDeletion">
-                    <div class="p-6">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                            Are you sure you want to delete this company?
-                        </h2>
-
-
-                        <div class="mt-6 flex justify-end">
-                            <SecondaryBtn @click="confirmingCompanyDeletion=false">Cancel</SecondaryBtn>
-
-                            <DangerBtn class="ml-3" @click="destroyCompany(row.id)">
-                                Yeah, why not?
-                            </DangerBtn>
-                        </div>
-                    </div>
-                </Modal>
-            </template>
-        </BaseTable>
-    </div>
-</template>
-
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 import useCompanies from "@/Composables/companies";
@@ -50,6 +11,55 @@ const confirmingCompanyDeletion = ref(false);
 
 onMounted(fetchCompanies);
 </script>
+
+<template>
+    <section>
+        <header class="flex justify-between">
+            <h1 class="uppercase p-3 text-lg">Companies</h1>
+
+            <SecondaryBtn>
+                <a :href="route('company.create')">Create new company</a>
+            </SecondaryBtn>
+        </header>
+
+        <BaseTable
+            :columns="[
+                { name: 'Name', value: 'name' },
+                { name: 'Email', value: 'email' },
+                { name: 'Address', value: 'address' },
+                { name: 'Website', value: 'website' }
+            ]"
+            :rows="companies"
+        >
+            <template #action="{ row }">
+                <td class="text-center" role="group">
+                    <SecondaryBtn class="rounded-r-none">
+                        <a :href="route('company.edit', { id: row.id })">Edit</a>
+                    </SecondaryBtn>
+                    <DangerBtn class="rounded-l-none" @click="confirmingCompanyDeletion=true">
+                        Delete
+                    </DangerBtn>
+                </td>
+
+                <Modal :show="confirmingCompanyDeletion">
+                    <div class="p-6">
+                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                            Are you sure you want to delete this company?
+                        </h2>
+
+                        <div class="mt-6 flex justify-end">
+                            <SecondaryBtn @click="confirmingCompanyDeletion=false">Cancel</SecondaryBtn>
+
+                            <DangerBtn class="ml-3" @click="destroyCompany(row.id)">
+                                Yeah, why not?
+                            </DangerBtn>
+                        </div>
+                    </div>
+                </Modal>
+            </template>
+        </BaseTable>
+    </section>
+</template>
 
 <style scoped>
 /*td button {
