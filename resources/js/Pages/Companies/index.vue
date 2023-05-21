@@ -7,7 +7,7 @@ import DangerBtn from "@/Components/DangerButton.vue";
 import SecondaryBtn from "@/Components/SecondaryButton.vue";
 
 const { companies, fetchCompanies, destroyCompany } = useCompanies();
-const confirmingCompanyDeletion = ref(false);
+const pickedCompany = ref(null);
 
 onMounted(fetchCompanies);
 </script>
@@ -17,9 +17,11 @@ onMounted(fetchCompanies);
         <header class="flex justify-between">
             <h1 class="uppercase p-3 text-lg">Companies</h1>
 
-            <SecondaryBtn>
-                <a :href="route('company.create')">Create new company</a>
-            </SecondaryBtn>
+            <a :href="route('company.create')">
+                <SecondaryBtn>
+                    Create new company
+                </SecondaryBtn>
+            </a>
         </header>
 
         <BaseTable
@@ -33,31 +35,33 @@ onMounted(fetchCompanies);
         >
             <template #action="{ row }">
                 <td class="text-center" role="group">
-                    <SecondaryBtn class="rounded-r-none">
-                        <a :href="route('company.edit', { id: row.id })">Edit</a>
-                    </SecondaryBtn>
-                    <DangerBtn class="rounded-l-none" @click="confirmingCompanyDeletion=true">
+                    <a :href="route('company.edit', { id: row.id })">
+                        <SecondaryBtn class="rounded-r-none">
+                           Edit
+                        </SecondaryBtn>
+                    </a>
+                    <DangerBtn class="rounded-l-none" @click="pickedCompany=row.id">
                         Delete
                     </DangerBtn>
                 </td>
-
-                <Modal :show="confirmingCompanyDeletion">
-                    <div class="p-6">
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                            Are you sure you want to delete this company?
-                        </h2>
-
-                        <div class="mt-6 flex justify-end">
-                            <SecondaryBtn @click="confirmingCompanyDeletion=false">Cancel</SecondaryBtn>
-
-                            <DangerBtn class="ml-3" @click="destroyCompany(row.id)">
-                                Yeah, why not?
-                            </DangerBtn>
-                        </div>
-                    </div>
-                </Modal>
             </template>
         </BaseTable>
+
+        <Modal :show="pickedCompany" @close="pickedCompany=null">
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                    Are you sure you want to delete this company?
+                </h2>
+
+                <div class="mt-6 flex justify-end">
+                    <SecondaryBtn @click="pickedCompany=null">Cancel</SecondaryBtn>
+
+                    <DangerBtn class="ml-3" @click="destroyCompany(pickedCompany); pickedCompany=null">
+                        Yeah, why not?
+                    </DangerBtn>
+                </div>
+            </div>
+        </Modal>
     </section>
 </template>
 
