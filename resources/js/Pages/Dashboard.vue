@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import CompaniesIndex from '@/Pages/Companies';
+import CompaniesIndex from '@/Pages/Companies/Index.vue';
 </script>
 
 <template>
