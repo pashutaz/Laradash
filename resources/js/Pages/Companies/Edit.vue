@@ -8,9 +8,9 @@ import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import {AxiosError} from "axios";
 
-const props = defineProps({
+const props = defineProps<{
     companyId: String
-});
+}>();
 
 let processing = ref(false);
 let successful = ref(false);

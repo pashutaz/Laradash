@@ -1,4 +1,4 @@
-import {reactive, ref} from "vue";
+import {ref} from "vue";
 import axios from "axios";
 import {router} from '@inertiajs/vue3'
 
@@ -12,8 +12,7 @@ export default function useCompanies() {
     };
 
     const fetchCompany = async (id: number): Promise<object> => {
-        const { data } = await axios.get(`/api/company/${id}`);
-        return reactive(data);
+        return (await axios.get(`/api/company/${id}`)).data;
     }
 
     const storeCompany = async (data: object) => {

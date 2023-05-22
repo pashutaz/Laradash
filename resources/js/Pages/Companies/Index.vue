@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
+import { Link as InertiaLink } from "@inertiajs/vue3";
 import useCompanies from "@/Composables/companies";
 import BaseTable from "@/Components/BaseTable.vue";
 import Modal from "@/Components/Modal.vue";
@@ -17,11 +18,11 @@ onMounted(fetchCompanies);
         <header class="flex justify-between">
             <h1 class="uppercase p-3 text-lg">Companies</h1>
 
-            <a :href="route('company.create')">
+            <InertiaLink :href="route('company.create')">
                 <SecondaryBtn>
                     Create new company
                 </SecondaryBtn>
-            </a>
+            </InertiaLink>
         </header>
 
         <BaseTable
@@ -35,11 +36,11 @@ onMounted(fetchCompanies);
         >
             <template #action="{ row }">
                 <td class="text-center" role="group">
-                    <a :href="route('company.edit', { id: row.id })">
+                    <InertiaLink :href="route('company.edit', { id: row.id })">
                         <SecondaryBtn class="rounded-r-none">
                            Edit
                         </SecondaryBtn>
-                    </a>
+                    </InertiaLink>
                     <DangerBtn class="rounded-l-none" @click="pickedCompany=row.id">
                         Delete
                     </DangerBtn>

@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import {defineProps} from "vue";
 
-defineProps({
-    columns: Array,
-    rows: Array
-});
+interface IColumn {
+    name: String,
+    value: String
+}
+
+defineProps<{
+    columns: Array<IColumn>,
+    rows: Array<IColumn>
+}>();
 </script>
 
 <template>
